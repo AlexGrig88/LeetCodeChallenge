@@ -6,15 +6,43 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(int.MinValue);
-            Console.WriteLine();
-            Console.WriteLine(Solution.Reverse(-2147483647));
+            Console.WriteLine(Solution.LengthOfLongestSubstring("abcabcbb"));
         }
     }
 
 
     public static class Solution
     {
+        /* 3)
+         * Given a string s, find the length of the longest substring
+        without repeating characters.
+
+        Example 1:
+
+        Input: s = "abcabcbb"
+        Output: 3
+        Explanation: The answer is "abc", with the length of 3.
+         */
+        public static int LengthOfLongestSubstring(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return 0;
+            int longestSub = 1;
+            var resultList = new List<char>() { s[0] };
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (resultList.Contains(s[i])) {
+                    longestSub = resultList.Count > longestSub ? resultList.Count : longestSub;
+                    i = i - (resultList.Count - 1);
+                    resultList.Clear();
+                    resultList.Add(s[i]);
+                } 
+                else {
+                    resultList.Add(s[i]); 
+                }
+            }
+            longestSub = resultList.Count > longestSub ? resultList.Count : longestSub;
+            return longestSub;
+        }
 
         /* 2)
          * Given a signed 32-bit integer x, return x with its digits reversed.
