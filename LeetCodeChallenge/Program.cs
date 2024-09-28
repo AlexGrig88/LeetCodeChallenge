@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace LeetCodeChallenge
 {
@@ -13,6 +14,60 @@ namespace LeetCodeChallenge
 
     public static class Solution
     {
+        /* 4)
+         * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: 
+         * (you may want to display this pattern in a fixed font for better legibility)
+         
+            Example 2:
+
+            Input: s = "PAYPALISHIRING", numRows = 4
+            Output: "PINALSIGYAHRPI"
+            Explanation:
+            P     I    N
+            A   L S  I G
+            Y A   H R
+            P     I
+         */
+        public static string Convert(string s, int numRows)
+        {
+            if (numRows == 1) return s;
+            var vertical = CreateList(s, numRows, 0);
+            var diagonal = CreateList(s, numRows, numRows - 1);
+            if (vertical.Count > diagonal.Count) diagonal.Add(new char[numRows]); // выравнить кол-во массивов в списке
+            diagonal.ForEach(arr => { arr[0] = '_'; arr[^1] = '_'; Array.Reverse(arr); });
+            var sb = new StringBuilder("");
+            for (int j = 0; j < numRows; j++)
+                for (int i = 0; i < vertical.Count; i++)
+                    sb.Append(vertical[i][j]).Append(diagonal[i][j]);
+            var res = new StringBuilder("");
+            foreach (var c in sb.ToString()) {
+                if (c != '_' && c != '\0') {
+                    res.Append(c);
+                }
+            }
+            return res.ToString();
+        }
+
+        private static List<char[]> CreateList(string s, int numRows, int start)
+        {
+            var result = new List<char[]>() { new char[numRows] };
+            var distance = numRows - 2;
+            for (int i = 0, j = 0, k = start; k < s.Length;)    // i - индекс списка, j - индекс внутреннего массива
+            {
+                if (j == numRows) {
+                    j = 0;
+                    result.Add(new char[numRows]);
+                    ++i;
+                    k += distance;
+                    continue;
+                }
+                result[i][j] = s[k++];
+                ++j;
+            }
+            return result;
+        }
+
+
         /* 3)
          * Given a string s, find the length of the longest substring
         without repeating characters.
