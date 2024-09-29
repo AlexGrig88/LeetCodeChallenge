@@ -7,13 +7,42 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Solution.LengthOfLongestSubstring("abcabcbb"));
+            Console.WriteLine(Solution.RomanToInt("MCMXCIV"));
         }
     }
 
 
     public static class Solution
     {
+        /* 13. Roman to Integer
+         * Symbol       Value
+            I             1
+            V             5
+            X             10
+            L             50
+            C             100
+            D             500
+            M             1000
+         */
+        public static int RomanToInt(string s)
+        {
+            var dict = new Dictionary<char, int>() {
+                {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50},
+                {'C', 100}, {'D', 500}, {'M', 1000}
+            };
+            int res = dict[s[s.Length - 1]];
+            for (int i = s.Length - 2; i >= 0; --i) {
+                if (dict[s[i]] < dict[s[i + 1]]) {
+                    res -= dict[s[i + 1]];
+                    res += (dict[s[i + 1]] - dict[s[i]]);
+                }
+                else {
+                    res += dict[s[i]];
+                }
+            }
+            return res;
+    }
+
         /* 4)
          * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: 
          * (you may want to display this pattern in a fixed font for better legibility)
