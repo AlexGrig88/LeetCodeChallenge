@@ -7,13 +7,33 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Solution.RomanToInt("MCMXCIV"));
+            Console.WriteLine(Solution.IsPalindrome(128));
         }
     }
 
 
     public static class Solution
     {
+        /* 9. Palindrome Number
+         */
+        public static bool IsPalindrome(int x)
+        {
+            if (x < 0) return false;
+            if (x < 10) return true;
+            int leftToRightNum = x, rightToLeftNum = 0;
+            var rightToLeft = new List<int>();
+            while (x > 0) {
+                rightToLeft.Add(x % 10);
+                x /= 10;
+            }
+            rightToLeft.Reverse();
+            for (int i = 0; i < rightToLeft.Count; ++i) {
+                rightToLeftNum += rightToLeft[i] * (int)Math.Pow(10, i);
+            }
+            return leftToRightNum == rightToLeftNum;
+
+        }
+
         /*88. Merge Sorted Array
          * You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
             Merge nums1 and nums2 into a single array sorted in non-decreasing order.
