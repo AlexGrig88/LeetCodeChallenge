@@ -7,13 +7,40 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Solution.IsPalindrome(128));
+            Console.WriteLine(Solution.LongestCommonPrefix(new string[] {"ab", "a"}));
         }
     }
 
 
     public static class Solution
     {
+        /* 14. Longest Common Prefix
+         * Write a function to find the longest common prefix string amongst an array of strings.
+        If there is no common prefix, return an empty string "".  
+
+        Example 1:
+
+        Input: strs = ["flower","flow","flight"]
+        Output: "fl"
+         */
+        public static string LongestCommonPrefix(string[] strs)
+        {
+            if (strs.Length == 1) return strs[0];
+            int minLen = strs.Min(w => w.Length);
+            if (minLen == 0) return "";
+            var prefix = new StringBuilder("");
+            int longPrefixIdx = 0;
+            while (longPrefixIdx < minLen) {
+                char ch = strs[0][longPrefixIdx];
+                foreach (var s in strs) {
+                    if (ch != s[longPrefixIdx]) return prefix.ToString();
+                }
+                ++longPrefixIdx;
+                prefix.Append(ch);
+            }
+            return prefix.ToString();
+        }
+
         /* 9. Palindrome Number
          */
         public static bool IsPalindrome(int x)
