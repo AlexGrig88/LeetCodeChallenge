@@ -7,13 +7,50 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Solution.LongestCommonPrefix(new string[] {"ab", "a"}));
+            Console.WriteLine(Solution.IsValidParenthneses("()[]{}"));
         }
     }
 
 
     public static class Solution
     {
+
+
+
+        /*
+            20. Valid Parentheses
+            Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+        Constraints:
+
+        1 <= s.length <= 104
+        s consists of parentheses only '()[]{}'.
+        */
+        public static bool IsValidParenthneses(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length == 1) return false;
+            var stack = new Stack<char>();
+            var pairsOfParenthneses = new Dictionary<char, char>()
+            {
+                { '(', ')' }, { '{', '}'}, { '[', ']' }
+            };
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (pairsOfParenthneses.ContainsKey(s[i])) {
+                    stack.Push(s[i]);
+                    continue;
+                }
+                var isSuccessfull = stack.TryPop(out char popEl);
+                if (!isSuccessfull) return false;
+                if (pairsOfParenthneses[popEl] == s[i]) {
+                    continue;
+                }
+                else {
+                    return false;
+                }
+            }
+            return stack.Count == 0;
+        }
+
         /* 66. Plus One
          * You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
 
