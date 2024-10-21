@@ -7,13 +7,45 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Solution.IsValidParenthneses("()[]{}"));
+            Console.WriteLine("k = " + Solution.RemoveDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
         }
     }
 
 
     public static class Solution
     {
+        /* 26. Remove Duplicates from Sorted Array
+         * Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. 
+         * The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+         * 
+         * Example 2:
+
+            Input: nums = [0,0,1,1,1,2,2,3,3,4]
+            Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+            Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+            It does not matter what you leave beyond the returned k (hence they are underscores).
+
+        Constraints:
+
+            1 <= nums.length <= 3 * 104
+            -100 <= nums[i] <= 100
+            nums is sorted in non-decreasing order.
+         */
+        public static int RemoveDuplicates(int[] nums)
+        {
+            if (nums.Length == 1)  return 1; 
+            int forwardIdx = 0, currIdx = 1;
+            while (currIdx < nums.Length) {
+                if (nums[currIdx] == nums[forwardIdx]) {
+                    ++currIdx;
+                }
+                else {
+                    nums[++forwardIdx] = nums[currIdx];
+                    ++currIdx; 
+                }
+            }
+            return forwardIdx + 1;
+        }
 
         /*
         21. Merge Two Sorted Lists
