@@ -7,13 +7,90 @@ namespace LeetCodeChallenge
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("k = " + Solution.RemoveElement([0, 1, 2, 2, 3, 0, 4, 2], 2));
+
+            Console.WriteLine(Solution.AddBinary("11", "1"));
         }
     }
 
 
     public static class Solution
     {
+
+        // 67. Add Binary
+        // Given two binary strings a and b, return their sum as a binary string.
+        public static string AddBinary(string a, string b)
+        {
+            var maxLen = Math.Max(a.Length, b.Length);
+            if (a.Length < b.Length) {
+                a = a.PadLeft(maxLen, '0');
+            }
+            else {
+                b = b.PadLeft(maxLen, '0');
+            }
+            int temp = 0, sum = 0;
+            var res = new StringBuilder("");
+            for (int i = a.Length - 1; i >= 0; --i)
+            {
+                sum = (a[i] - '0') + (b[i] - '0') + temp;
+                if (sum == 3) {
+                    temp = 1;
+                    res.Insert(0, 1);
+                }
+                else if (sum == 2) {
+                    temp = 1;
+                    res.Insert(0, 0);
+                } else if (sum == 1) {
+                    temp = 0;
+                    res.Insert(0, 1);
+                } else {
+                    temp = 0;
+                    res.Insert(0, 0);
+                }
+            }
+            if (temp == 1) res.Insert(0, 1);
+
+            return res.ToString();
+        }
+
+        // 58. Length of Last Word
+        public static int LengthOfLastWord(string s)
+        {
+            s = s.Trim();
+            var counter = 0;
+            for (int i = s.Length - 1; i >= 0; --i) {
+                if (s[i] != ' ') ++counter;
+                else break;
+            }
+            return counter;
+        }
+
+        /*
+         35. Search Insert Position
+        Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+        You must write an algorithm with O(log n) runtime complexity.
+        */
+        public static int SearchInsert(int[] nums, int target)
+        {
+            int leftIdx = 0;
+            int rightIdx = nums.Length;
+            while (leftIdx < rightIdx) {
+                int middleIdx = leftIdx + (rightIdx - leftIdx) / 2;
+                if (target == nums[middleIdx]) return middleIdx;
+                if (target < nums[middleIdx]) {
+                    rightIdx = middleIdx;
+                }
+                else {
+                    leftIdx = middleIdx + 1;
+                }
+            }
+            return leftIdx;
+        }
+
+        // 28. Find the Index of the First Occurrence in a String
+        public static int StrStr(string haystack, string needle) => haystack.IndexOf(needle);
+
+
 
         /* 27. Remove Element
          * Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. 
@@ -167,9 +244,6 @@ namespace LeetCodeChallenge
             return headNewList;
         }
         // Definition for singly-linked list.
-       
-
-
 
 
         /*
